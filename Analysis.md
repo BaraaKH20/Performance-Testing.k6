@@ -131,19 +131,31 @@ Performance_Degradation:
     - Network_Latency: ~200ms_baseline
     - No_Caching_Layer: Repeated_identical_requests
     - Sequential_Execution: No_optimization
+    
+| Impact Area | Severity | Business Consequence |
+|-------------|----------|----------------------|
+| **User Experience** |  High | Slow pages → Higher bounce rates |
+| **Conversion Rates** |  High | Performance affects purchases |
+| **System Reliability** |  Medium | Rate limit risks unpredictable |
+| **Scalability** | High | Cannot handle growth efficiently |
 
-    4.2 Business Impact Assessment
-Impact Area	Severity	Business Consequence
-User Experience	  High	Slow pages → Higher bounce rates
-Conversion Rates	 High	Performance affects purchases
-System Reliability  Medium	Rate limit risks unpredictable
-Scalability	 High	Cannot handle growth efficiently
+### 4.3 Performance Threshold Calibration
 
-4.3 Performance Threshold Validation
+**Process**: Evidence-Based Target Adjustment
 
-Original Academic Target:   p95 < 1200ms
-Actual Performance:     p95 ~1330ms
-Adjusted Target:        p95 < 1800ms
+| Stage | Target | Source | Outcome | Adjustment |
+|-------|--------|--------|---------|------------|
+| 1. Initial | p95 < 1200ms | Smoke test extrapolation | Unrealistic | - |
+| 2. Measured | ~1330ms | Load test (25 VUs) | Actual performance | +10.8% |
+| 3. Final | p95 < 1800ms | Realistic + buffer | Achievable | +35% safety |
+
+Justification :
+
+- Original (1200ms) : Based on optimal conditions (5 users)
+- Actual (1330ms) : Real performance under load (25 users)  
+- Adjusted (1800ms) : Achievable target with monitoring buffer
+
+Academic Value : Demonstrates real-world testing where targets evolve based on evidence.
 
 Justification: Thresholds must reflect actual system capabilities. The adjusted target:
 
@@ -202,15 +214,20 @@ Stress Testing: Identify breaking points
 Geographic Testing: Performance from different regions
 Continuous Monitoring: Automated performance regression testing
 
-7. Success Metrics & Monitoring
-7.1 Key Performance Indicators
+ 7.1 Key Performance Indicators (KPIs)
 
-KPI	                  Target	 Measurement Frequency	        Alert Threshold
-p95 Response Time	 < 1500ms	     Every 5 minutes	            > 2000ms for 5m
-Error Rate	            < 1%	      Every 5 minutes	             > 5% for 10m
-Cache Hit Ratio	> 90%	                Daily	                    < 80% for 1 day
-API Success Rate                   	> 99.5%	Daily	               < 99% for 2 hours
+| KPI |  Target | Measurement Frequency | Alert Condition |
+|-----|-----------|-------------------------|-------------------|
+| **Response Time (p95)** | < 1500ms | Every 5 minutes | Exceeds 2000ms for 5+ minutes |
+| **Error Rate** | < 1% | Every 5 minutes | Exceeds 5% for 10+ minutes |
+| **Cache Hit Ratio** | > 90% | Daily average | Falls below 80% for 24 hours |
+| **API Success Rate** | > 99.5% | Daily aggregate | Falls below 99% for 2+ hours |
 
+Implementation Notes :
+- Response Time : Monitored continuously with 5-minute rolling windows
+- Error Rate : Includes both HTTP errors and business logic failures
+- Cache Ratio : Measures effectiveness of caching implementation
+- Success Rate : Overall API health indicator including all endpoints
 
 7.2 Monitoring Dashboard Requirements
 dashboard_metrics:
