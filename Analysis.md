@@ -152,10 +152,12 @@ Achievable: Within system capabilities
 Meaningful: Still ensures good user experience
 
  5. Recommendations & Improvements
+    
 5.1 Immediate Actions (High Impact, Low Effort)
 1. Implement Caching Layer
 
 // Example implementation
+
 const CACHE_TTL = 300; // 5 minutes
 const cachedData = cache.get('products');
 if (!cachedData) {
@@ -166,6 +168,7 @@ if (!cachedData) {
 Expected Impact: Reduce API calls by 80-90%, improve response times by 70%
 
 2. Add Retry Logic with Exponential Backoff
+   
 const res = http.get(url, {
     retries: 3,
     timeout: '10s',
